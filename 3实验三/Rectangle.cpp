@@ -7,17 +7,18 @@ public:
 	double _length;
 	double _width;
 public:
-	void verif(double& num){
-		if(num < 0.0 || num >= 20.0){
+	double verif(double num){
+		if(num <= 0.0 || num >= 20.0){
 			num = 1.0;
 		}
+		return num;
 	}
 	void setLength(double length){
-		verif(length);
+		length = verif(length);
 		_length = length;
 	}
 	void setWidth(double width){
-		verif(width);
+		width = verif(width);
 		_width = width;
 	}
 	double perimeter(){
