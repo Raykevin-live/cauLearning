@@ -1,3 +1,5 @@
+// Copyright 2025 Lenovo
+
 #include <iostream>
  
 using namespace std;
@@ -5,7 +7,7 @@ using namespace std;
 class Account{
 public:
 	double _Balance;
-	Account(double balance){
+	explicit Account(double balance){
 		if(balance < 0){
 			cout<<"\nError:Initial balance cannot be negative.\n"<<endl;
 			balance = 0;
@@ -19,9 +21,8 @@ public:
 		if(money <= _Balance){
 			_Balance -= money;
 		}
-		else{
-			cout<<"Debit amount exceeded accountbalance"<<endl; 
-		}
+		else
+		{cout<<"Debit amount exceeded account balance.\n"<<endl; }
 	}
 	double getBalance(){
 		return _Balance;

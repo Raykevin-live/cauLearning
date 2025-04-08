@@ -115,6 +115,13 @@ public:
 	bool operator<=(const Fraction& b){
 		return !(*this > b);
 	}
+	bool operator<(const Fraction& b){
+		Fraction c = b;
+		return to_double() < c.to_double();
+	}
+	bool operator>=(const Fraction& b){
+		return !(*this < b);
+	}
 };
 
 void fswap(Fraction& a, Fraction& b){
@@ -139,13 +146,25 @@ istream& operator>>(istream& in, Fraction& x) {
 
 //StudybarCommentBegin
 int main(int argc, char *argv[]) {
-    Fraction a(1,2),b,c(2);
-    cout<<a<<"\n"<<b<<"\n"<<c<<'\n';
-    cin>>a>>b;
-//    if (a!=b)
-//    {	cout<<"!="<<endl;
-//    }
-    cout<<a+b;		   
+	
+	Fraction a(1),b(1,3);
+	
+	cin>>a>>b;
+	
+	cout << "a= " << a << ", b = " << b << endl;
+	
+	cout << a << " + " << b << " = " << a + b << endl;
+	cout << a << " - " << b << " = " << a - b << endl;
+	cout << a << " * " << b << " = " << a * b << endl;
+	cout << a << " / " << b << " = " << a / b << endl;
+	
+	cout << "a == b is " << (a == b) << endl;
+	cout << "a != b is " << (a != b) << endl;
+	cout << "a <= b is " << (a <= b) << endl;
+	cout << "a >= b is " << (a >= b) << endl;
+	cout << "a < b is " << (a < b) << endl;
+	cout << "a > b is " << (a > b) << endl;
+	
     return 1;
 }
 //StudybarCommentEnd
