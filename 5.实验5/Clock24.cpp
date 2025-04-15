@@ -48,7 +48,6 @@ public:
 			_hour =  _hour % 24 + 24;
 		}
 	}
-	
 	Clock24& operator++(){
 		++_second;
 		setStandard();
@@ -60,15 +59,12 @@ public:
 		setStandard();
 		return tmp;
 	}
-	
 	friend istream& operator>>(istream & in,Clock24 &c);
 	friend ostream& operator<<(ostream & out,const Clock24 &c);
-	
 	int getSecondsOfDay()const{
 			return _second + _minute*60+_hour*3600;
 	}
 };
-
 ostream& operator<<(ostream & out,const Clock24 &c)
 {
 	if (c.IS24)

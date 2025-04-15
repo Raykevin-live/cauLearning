@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 class Cmytime{
@@ -57,11 +56,17 @@ public:
 
 //StudybarCommentBegin
 int main(void) {
-//    int h,m,s;
-//   	cin>>h>>m>>s;
-  	Cmytime t1;
-//	t1.Set(h,m,s);
+    int h,m,s;
+   	cin>>h>>m>>s;
+ 	Cmytime t1(3,2,1),t2,t3(5);
 	t1.Show();
+	cout<<"\n";
+	t1.Set(h,m,s);
+	t1.Show();
+	cout<<"\n";
+	t2.Show();
+	cout<<"\n";
+	t3.Show();
     return 0;
 }
 //StudybarCommentEnd

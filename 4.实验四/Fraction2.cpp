@@ -112,12 +112,10 @@ void fswap(Fraction& a, Fraction& b){
 	a = b;
 	b = tmp;
 }
-
 ostream& operator<<(ostream& os, const Fraction& x){
 	os<<x._mole<<"/"<<x._deno;
 	return os;
 }
-
 istream& operator>>(istream& in, Fraction& x) {
     int mole, deno;
     in >> mole >> deno;

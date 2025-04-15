@@ -1,4 +1,3 @@
-//StudybarCommentBegin
 #include <iostream>
 #include <iomanip>
 using std::cin;
@@ -7,23 +6,17 @@ using std::endl;
 using std::setfill;
 using std::setw;
 
-//StudybarCommentEnd
-
-
 class Time {
 private:
     int year, month, day, hour, minute, second;
-    
     static bool isLeapYear(int y) {
         return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
     }
-    
     static int getDaysInMonth(int m, int y) {
         if (m == 2) return isLeapYear(y) ? 29 : 28;
         const static int days[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
         return days[m];
     }
-    
     void normalize() {
         // 处理秒
         minute += second / 60;
@@ -32,7 +25,6 @@ private:
             minute--;
             second += 60;
         }
-        
         // 处理分钟
         hour += minute / 60;
         minute %= 60;
@@ -40,7 +32,6 @@ private:
             hour--;
             minute += 60;
         }
-        
         // 处理小时
         day += hour / 24;
         hour %= 24;
@@ -48,7 +39,6 @@ private:
             day--;
             hour += 24;
         }
-        
         // 处理天数
         while (day > getDaysInMonth(month, year)) {
             day -= getDaysInMonth(month, year);
@@ -57,7 +47,6 @@ private:
                 year++;
             }
         }
-        
         while (day < 1) {
             if (--month < 1) {
                 month = 12;
@@ -65,18 +54,15 @@ private:
             }
             day += getDaysInMonth(month, year);
         }
-        
         // 处理月份
         year += (month - 1) / 12;
         month = (month - 1) % 12 + 1;
     }
-
 public:
     Time(int y=1, int m=1, int d=1, int h=0, int min=0, int s=0) 
         : year(y), month(m), day(d), hour(h), minute(min), second(s) {
         normalize();
     }
-    
     void setTime(int y, int m, int d, int h, int min, int s) {
         year = y;
         month = m;
@@ -86,24 +72,20 @@ public:
         second = s;
         normalize();
     }
-    
     Time& operator++() {  // 前置++
         ++second;
         normalize();
         return *this;
     }
-    
     Time operator+(int sec) const {
         Time t = *this;
         t.second += sec;
         t.normalize();
         return t;
     }
-    
     int operator-(const Time& other) const {
         return this->totalSeconds() - other.totalSeconds();
     }
-    
     void printTime() const {
         cout << year << "/" << month << "/" << day << " "
              << setw(2) << setfill('0') << hour << ":" 
@@ -119,12 +101,10 @@ private:
             days += isLeapYear(y) ? 366 : 365;
         return days;
     }
-    
     int totalSeconds() const {
         return totalDays() * 86400 + hour*3600 + minute*60 + second;
     }
 };
-
 void Time::printTime()
 {
  cout<<year<<"/"<<month<<"/"<<day

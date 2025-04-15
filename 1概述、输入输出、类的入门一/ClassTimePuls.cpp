@@ -1,7 +1,5 @@
 #include <iostream>
-
 using namespace std;
-
 class Cmytime{
 private:
 	int _h, _m, _s;	
@@ -54,8 +52,6 @@ public:
 		return 0;
 	}
 };
-
-
 //StudybarCommentBegin
 int main(void) {
     int h,m,s;
@@ -71,5 +67,4 @@ int main(void) {
 	t3.Show();
     return 0;
 }
-
 //StudybarCommentEnd

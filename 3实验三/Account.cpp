@@ -1,7 +1,5 @@
 // Copyright 2025 Lenovo
-
 #include <iostream>
- 
 using namespace std;
 
 class Account{

@@ -1,17 +1,11 @@
 #include <iostream>
 #include <cmath>
 #include <string>
-
 using namespace std; 
-
-#include <iostream>
-
-using namespace std;
 
 int gcd(int a, int b){
 	a = a < 0 ? -a : a;
     b = b < 0 ? -b : b;
-    
 	if( b > a){
 		int tmp = a;
 		a = b;
@@ -24,13 +18,10 @@ int gcd(int a, int b){
     }
     return a;
 }
-
 int lcm(int a, int b) {
     if (a == 0 || b == 0) return 0; 
     return (a * b) / gcd(a, b);     
 }
-
-
 class Fraction{
 private:
 	int _mole; //·Ö×Ó 
@@ -38,7 +29,6 @@ private:
 	
 	friend void fswap(Fraction& a, Fraction& b);
 	friend void printtest(Fraction& a);
-	
 	friend ostream& operator<<(ostream& os, const Fraction& x);
 	friend istream& operator>>(istream& in, Fraction& x);
 public:
@@ -123,18 +113,15 @@ public:
 		return !(*this < b);
 	}
 };
-
 void fswap(Fraction& a, Fraction& b){
 	Fraction tmp = a;
 	a = b;
 	b = tmp;
 }
-
 ostream& operator<<(ostream& os, const Fraction& x){
 	os<<x._mole<<"/"<<x._deno;
 	return os;
 }
-
 istream& operator>>(istream& in, Fraction& x) {
     int mole, deno;
     in >> mole >> deno;

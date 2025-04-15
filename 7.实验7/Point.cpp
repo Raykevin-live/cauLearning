@@ -13,31 +13,18 @@ private:
 	int x, y;
 };
 //StudybarCommentEnd
-
 Point::Point() : x(0), y(0) {
-
-cout<<"Default Constructor called."<<endl;
-
+	cout<<"Default Constructor called."<<endl;
 }
-
 Point::Point(int x, int y) : x(x), y(y) {
-
-cout<< "Constructor called."<<endl;
-
+	cout<< "Constructor called."<<endl;
 }
-
 Point::~Point() { cout<<"Destructor called."<<endl; }
-
 int Point::getX() const { return x; }
-
 int Point::getY() const { return y; }
-
 void Point::move(int newX, int newY) {
-
-x = newX;
-
-y = newY;
-
+	x = newX;
+	y = newY;
 }
 
 

@@ -21,7 +21,6 @@ public:
             _month += 12;
             _year--;
         }
-
         // 调整天数
         while (true) {
             int maxDay = Date::getDaysInMonth(_month, _year);
@@ -51,17 +50,14 @@ public:
         : _year(year), _month(month), _day(day) {
         normalize();
     }
-
     // 日期属性访问
     int year() const { return _year; }
     int month() const { return _month; }
     int day() const { return _day; }
-
     // 闰年判断
     bool isLeap() const {
         return (_year % 4 == 0 && _year % 100 != 0) || (_year % 400 == 0);
     }
-
     // 静态方法获取月份天数
     static int getDaysInMonth(int month, int year) {
         if (month == 2) {
@@ -69,33 +65,28 @@ public:
         }
         return monthDay[month];
     }
-
     // 日期加减运算符
     Date& operator+=(int nday) {
         _day += nday;
         normalize();
         return *this;
     }
-
     Date operator+(int nday) const {
         Date temp = *this;
         temp += nday;
         temp.normalize();
         return temp;
     }
-
     Date& operator-=(int nday) {
         *this += (-nday);
         return *this;
     }
-
     // 日期差计算
     int operator-(const Date& other) const {
         return this->toDays() - other.toDays();
     }
 
 private:
-    // 转换为天数基准
     int toDays() const {
         int days = 0;
         // 年贡献天数
@@ -111,9 +102,7 @@ private:
         return days;
     }
 };
-
 int Date::monthDay[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
 using date = Date;
 
 //StudybarCommentBegin

@@ -88,11 +88,9 @@ public:
 		--_second;
 		setStandardMinus();
 		return tmp;
-	}
-	
+	}	
 	void printTime();
 };
-
 
 void Time::printTime()
 {
@@ -100,7 +98,6 @@ void Time::printTime()
   <<":"<<setw(2)<<_minute<<":"
   <<setw(2)<<_second<<endl;
 }
-
 Time operator+(const int n, const Time t){
 	Time tmp = t;
 	tmp._second += n;

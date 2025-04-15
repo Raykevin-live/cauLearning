@@ -39,12 +39,10 @@ Cmycomplex operator+(const Cmycomplex& cplx, double x){
 Cmycomplex operator+(double x, const Cmycomplex& cplx){
 		return Cmycomplex(cplx._real+x, cplx._imag);
 }
-
 std::istream& operator>>(std::istream& is, Cmycomplex& cplx) {
     is >> cplx._real >> cplx._imag;
     return is;
 }
-
 std::ostream& operator<<(std::ostream& os, const Cmycomplex& cplx) {
     os << "(" << cplx._real;
     if (cplx._imag != 0) {
@@ -57,10 +55,8 @@ std::ostream& operator<<(std::ostream& os, const Cmycomplex& cplx) {
 class Cassemblage {
 private:
     vector<Cmycomplex> elements;
-
 public:
 	Cassemblage() = default;
-	
     void Set(Cmycomplex arr[], int n) {
         elements.clear();
         for (int i = 0; i < n; ++i) {
@@ -69,7 +65,6 @@ public:
             }
         }
     }
-
     Cassemblage operator+(const Cassemblage& other) const {
         Cassemblage result = *this;
         for (const auto& e : other.elements) {
@@ -79,7 +74,6 @@ public:
         }
         return result;
     }
-
     Cassemblage operator&(const Cassemblage& other) const {
         Cassemblage result;
         for (const auto& e : elements) {
@@ -89,7 +83,6 @@ public:
         }
         return result;
     }
-
     Cassemblage operator-(const Cassemblage& other) const {
         Cassemblage result;
         for (const auto& e : elements) {
@@ -99,7 +92,6 @@ public:
         }
         return result;
     }
-
     void Show() const {
         if (elements.empty()) {
             cout << "empty";

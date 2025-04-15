@@ -1,7 +1,7 @@
 #include<iostream>
 #include<iomanip>
+#include <sstream>
 #include <cmath>
-
 using namespace std;
 
 class Cmycomplex{
@@ -17,7 +17,6 @@ public:
 		_real = real;
 		_imag = imag;
 	}
-	
 	void Show(){
 		cout <<setiosflags(ios::fixed); 
 		if(_imag<0){
@@ -29,8 +28,7 @@ public:
 		else{
 			cout<<"("<<setprecision(2)<<_real<<"+"<<setprecision(2)<<_imag<<"i)"<<endl;
 		}
-	}
-	
+	}	
 //	void Show(){
 //		if(_imag<0){
 //			cout<<"("<<_real<<_imag<<"i)"<<endl;
@@ -38,8 +36,7 @@ public:
 //		else{
 //			cout<<"("<<_real<<"+"<<_imag<<"i)"<<endl;
 //		}
-//	}
-	
+//	}	
 	double GetReal(){
 		return _real;
 	} 
@@ -72,7 +69,6 @@ public:
 	bool operator==(const Cmycomplex& x){
 		return _real==x._real && _imag == x._imag;
 	}
-	
 	bool operator!=(const Cmycomplex& x){
 		return _real!=x._real || _imag != x._imag;
 	}
@@ -82,92 +78,50 @@ public:
 		return Cmycomplex(newReal, newImag);
 	}
 };
-
 Cmycomplex operator+(const Cmycomplex& cplx, double x){
 		return Cmycomplex(cplx._real+x, cplx._imag);
 }
 Cmycomplex operator+(double x, const Cmycomplex& cplx){
 		return Cmycomplex(cplx._real+x, cplx._imag);
-}
-	
+}	
 std::ostream& operator<<(std::ostream& os, const Cmycomplex& cplx) {
-	if(cplx._imag!=0){
-		cout <<setiosflags(ios::fixed); 
-	}
-
+	os<<std::fixed<<setprecision(2);
 	if(cplx._imag<0){
-		os<<setprecision(2)<<cplx._real<<setprecision(2)<<cplx._imag<<"i";
+		os<<cplx._real<<cplx._imag<<"i";
 	}
 	else if(cplx._imag==0){
 		os<<cplx._real;
 	}
 	else{
-		os<<setprecision(2)<<cplx._real<<"+"<<setprecision(2)<<cplx._imag<<"i";
+		os<<cplx._real<<"+"<<cplx._imag<<"i";
 	}
     return os; 
 }
 std::istream& operator>>(std::istream& is, Cmycomplex& cplx) {
-    double real = 0, imag = 0;
-    char ch = 0;
-    
-    // 尝试读取实部
-    if (is >> real) {
-        // 探测下一个字符
-        ch = is.peek();
-        
-        // 处理虚部
-        if (ch == '+' || ch == '-') {
-            char op;
-            is >> op;  // 读取运算符
-            
-            // 尝试读取虚部数值
-            if (is >> imag) {
-                if (is.peek() == 'i') {
-                    is.get();  // 消耗i
-                    imag = (op == '+') ? imag : -imag;
-                } else {
-                    is.setstate(ios::failbit);
-                }
-            }
-        } 
-        // 处理纯虚部格式（如3i）
-        else if (ch == 'i') {
-            is.get();  // 消耗i
-            imag = real;
-            real = 0;
-        }
-    } 
-    // 处理纯虚部（如i/-i/4.5i）
-    else {
-        is.clear();
-        char first;
-        is >> first;
-        
-        if (first == 'i') {          // 单i情况
-            imag = 1;
-        } else if (first == '+' && is.peek() == 'i') {  // +i
-            is.get();
-            imag = 1;
-        } else if (first == '-' && is.peek() == 'i') {  // -i
-            is.get();
-            imag = -1;
-        } else {                     // 数值虚部（如3i/-4.5i）
-            is.unget();
-            if (is >> imag && is.get() == 'i') {
-                imag = (first == '-') ? -imag : imag;
-            } else {
-                is.setstate(ios::failbit);
-            }
-        }
-    }
-
-    if (is) {
-        cplx._real = real;
-        cplx._imag = imag;
-    }
+    string s;
+    cin>>s;
+    stringstream ss(s);
+    if(s.find('i')!=string::npos){
+    	//有虚部 
+    	if(s.find('+', 1)!=string::npos||s.find('-', 1)!=string::npos){
+    		// 复数 
+    		ss>>cplx._real>>cplx._imag;
+			ss.get(); // 消耗i
+		}
+		else{
+			//纯虚数
+			cplx._real = 0.0;
+			ss>>cplx._imag;
+			ss.get();// 消耗i
+		}
+	}
+	else{
+		// 退化为实数
+		cplx._imag = 0.0;
+		ss>>cplx._real; 
+	} 
     return is;
 }
-
 typedef Cmycomplex ComplexNumber;
  
 //流重载

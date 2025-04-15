@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 class Date{
@@ -12,7 +11,6 @@ public:
 		if(month <0 || month > 12){
 			month = 1;
 		}
-		
 		_month = month;
 		_day = day;
 		_year = year;

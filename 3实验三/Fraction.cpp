@@ -3,15 +3,12 @@
 #include <string>
 
 using namespace std; 
-
 #include <iostream>
-
 using namespace std;
 
 int gcd(int a, int b){
 	a = a < 0 ? -a : a;
     b = b < 0 ? -b : b;
-    
 	if( b > a){
 		int tmp = a;
 		a = b;
@@ -24,12 +21,10 @@ int gcd(int a, int b){
     }
     return a;
 }
-
 int lcm(int a, int b) {
     if (a == 0 || b == 0) return 0; 
     return (a * b) / gcd(a, b);     
 }
-
 
 class Fraction{
 private:
@@ -61,8 +56,7 @@ public:
 		while(int(x)!=x){
 			x *= 10;
 			sign *= 10;
-		}
-			
+		}	
 		int gcbNum = gcd(int(x), sign);
 		x /= gcbNum;
 		sign /= gcbNum;
@@ -82,7 +76,6 @@ public:
 	double to_double(){
 		return _mole*1.0/_deno;
 	}
-	
 	Fraction operator-(const Fraction& b){
 		int deno = lcm(_deno, b._deno);
 		int mole = _mole*(deno/_deno) - b._mole*(deno/b._deno);
@@ -113,7 +106,6 @@ public:
 		return !(*this > b);
 	}
 };
-
 void fswap(Fraction& a, Fraction& b){
 	Fraction tmp = a;
 	a = b;
@@ -125,10 +117,8 @@ void fswap(Fraction& a, Fraction& b){
 int main(int argc, char *argv[]) {
     
     int x,y,z;
-    cin>>x>>y>>z;
-	
+    cin>>x>>y>>z;	
 	Fraction a(z), b(x, y), c(-3, 9), d(2, -6),e;
-
     e=a+b;
     e.Show();std::cout<<endl;
     e=b-c;
@@ -137,8 +127,6 @@ int main(int argc, char *argv[]) {
     e.Show();std::cout<<endl;
     e=c/d;
     e.Show();std::cout<<endl;
-    
-
     std::cout << "a != b is " << (a != b) << std::endl;
     std::cout << "a <= b is " << (a <= b) << std::endl;   
     std::cout << "a > b is " << (a > b) << std::endl;
