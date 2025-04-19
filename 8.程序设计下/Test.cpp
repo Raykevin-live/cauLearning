@@ -1,9 +1,10 @@
 /*******************************************************************
-*				名    称：学生成绩管理系统1.0                         *             
-*				创建日期：2023-4-3                                 *
-*				最后修改：2023-4-3                                *
+*				名    称：学生成绩管理系统1.0                      *             
+*				创建日期：2025-4-18                                *
+*				最后修改：2025-4-18                                *
 *				版    权：中国农业大学信息与电气工程学院           *
-*				版 本 号：1.0                                      *
+*				版 本 号：1.0 									   * 
+*               Developed By Kevin                      		   *
 *******************************************************************/
 
 
@@ -16,7 +17,7 @@ using namespace std;
 #define COURSEMAX 3 // 课程数量 
 
 enum class Course : int{Chinese, Math, English};
-
+void clearScreen();
 /*******************************************************       
 功能:显示菜单
 参数：无				  
@@ -66,7 +67,9 @@ int login()
         else
 			s = 0;
 	}while(s==0 && count<3); 
-	
+	clearScreen();
+	cout<<" Reloading...\n";
+	cout<<" 系统登录成功! \n";
 	return s;
 }
 
@@ -100,7 +103,8 @@ int inputScore(int score[],int length)
 			i++;
 		}
     }while(tmp!=-1 && i<length);
-	
+	clearScreen();
+	cout<<" 信息录入成功，本次录入"<<i<<"条数据! "<<endl;
 	return i;
 }
 /*******************************************************       
@@ -118,12 +122,16 @@ int inputScore(int score[],int length)
 *******************************************************/
 void outputScore(int score[],int length)
 {
+	if(length <=0){
+		cout<<" 信息为空! \n";
+		return ;
+	}
 	int i=0;
-	
 	cout<<"学生成绩如下：\n";
 	for(i=0;i<length;i++)
 		cout<<i+1<<"\t"<<score[i]<<endl;
 	cout<<"\n";
+	return ;
 }
 /*******************************************************       
 功能:查找某个学生成绩是否在数组中，如果找到，则输出下标，
@@ -154,7 +162,7 @@ int queryScore(int score[],int length,int xScore)
         }
     }
     
-        return -1;
+    return -1;
 }
 
 /*******************************************************       
@@ -172,7 +180,8 @@ int queryScore(int score[],int length,int xScore)
 *******************************************************/
 void sortScore(int score[ ], int length)
 {
-	int i, j, t;	
+	int i, j, t;
+	clearScreen();	
 	cout<<"成绩排序如下：\n";
 	for(i = 0; i < length - 1; i++)
 	{
@@ -193,6 +202,7 @@ Course switchCourse(){
 		if (input >= 0 && input <= 2) {
 	        Course course = static_cast<Course>(input);
 	        switch (course) {
+	        	clearScreen();
 	            case Course::Chinese:
 	                std::cout << " 已切换到课程：语文" << std::endl;
 	                break;
@@ -203,6 +213,7 @@ Course switchCourse(){
 	                std::cout << " 已切换到课程：英语" << std::endl;
 	                break;
 	        }
+	        break;
 	    } else {
 	        std::cerr << " 输入无效！请重新输入：";
 	    }
@@ -210,6 +221,15 @@ Course switchCourse(){
 	
 	return static_cast<Course>(input);
 }
+
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");   // Windows
+    #else
+        system("clear"); // Linux/macOS
+    #endif
+}
+
 /*******************************************************       
 功能:主函数
 参数：无				  
@@ -223,9 +243,7 @@ int main()
     int *course[COURSEMAX];
     for (int i = 0; i < COURSEMAX; i++) {
         course[i] = (int *)malloc(sizeof(int)*N);  // 动态分配内存
-//        *course[i] = 0;  // 赋值
     }
-//    int score[N];
     	
      /*====验证用户的口令====*/
 	if (login( ) == 0) 
@@ -234,14 +252,11 @@ int main()
 		exit( 0 );
 	}
 	
-	
     /*====根据用户的选择，执行相应的操作.====*/
     Course input = Course::Chinese;
     while(1)
-    {
-		
+    {	
 		displayMenu();
-		
 		cout << "\n 当前课程: ";
 		switch (input) {
             case Course::Chinese:
@@ -276,17 +291,23 @@ int main()
 				cout<<"没有要查找的成绩:\n";
 			break;
 		case 4:
-			sortScore(course[i],datalen);outputScore(course[i],datalen);
+			sortScore(course[i],datalen);
+			outputScore(course[i],datalen);
 			break;
 		case 5:
 			input = switchCourse();
 			break;
 		case 6:
-			cout<<"正在退出成绩管理系统,请稍后..."<<endl;
+			cout<<" 正在退出成绩管理系统,请稍后..."<<endl;
 			Sleep(500); 
+			
+			// 释放内存
+			for (int i = 0; i < COURSEMAX; i++) {
+        		free(course[i]);  // 动态分配内存
+    		} 
 			exit(0);
-		defalut:
-			printf("选择错误，请重新选择!\n"); 
+		default:
+			printf(" 选择错误，请重新选择!\n"); 
         }
     }
     return 0;

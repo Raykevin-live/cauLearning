@@ -1,9 +1,10 @@
 /*******************************************************************
-*				名    称：学生成绩管理系统1.0                         *             
-*				创建日期：2023-4-3                                 *
-*				最后修改：2023-4-3                                *
+*				名    称：学生成绩管理系统1.0                      *             
+*				创建日期：2025-4-18                                *
+*				最后修改：2025-4-18                                *
 *				版    权：中国农业大学信息与电气工程学院           *
-*				版 本 号：1.0                                      *
+*				版 本 号：1.0 									   * 
+*               Developed By Kevin                      		   *
 *******************************************************************/
 
 
@@ -12,17 +13,38 @@
 #include <Windows.h>
 using namespace std;
 
+class Score; 
 #define N 20   //数组的长度
 #define COURSEMAX 3 // 课程数量 
 
 enum class Course : int{Chinese, Math, English};
+
+class Score{
+private:
+	int score[N];
+	int dataSize;
+//	Course course;
+public:
+	Score():dataSize(0){}
+
+	int inputScore();// 成绩输入
+	void outputScore();// 成绩输出
+	int queryScore(int xScore); // 成绩查询
+	void sortScore(); // 成绩排序 
+	
+	//静态成员函数
+	static Course switchCourse(); // 课程切换
+	static int login(); // 登录
+	static void displayMenu(); // 主菜单
+	static void clearScreen(); // 清屏函数 
+};
 
 /*******************************************************       
 功能:显示菜单
 参数：无				  
 返回值：无
 *******************************************************/
-void displayMenu()
+void Score::displayMenu()
 {
 	
 	cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
@@ -48,7 +70,7 @@ void displayMenu()
 类型：int
 说明：1表示通过验证；0表示没有通过
 *******************************************************/
-int login()
+int Score::login()
 {
     char password[8];/*用户输入的口令*/
 	static char key[8]="1234";
@@ -66,10 +88,12 @@ int login()
         else
 			s = 0;
 	}while(s==0 && count<3); 
-	
+	clearScreen();
+	cout<<" Reloading...\n";
+	Sleep(500); 
+	cout<<" 系统登录成功! \n";
 	return s;
 }
-
 
 /*******************************************************       
 功能:输入学生成绩到数组中
@@ -84,7 +108,7 @@ int login()
 类型：int
 说明：实际成绩数组的有效值个数
 *******************************************************/
-int inputScore(int score[],int length)
+int Score::inputScore()
 {
 	int i=0;
 	int tmp;
@@ -99,9 +123,11 @@ int inputScore(int score[],int length)
 			score[i]=tmp;
 			i++;
 		}
-    }while(tmp!=-1 && i<length);
-	
-	return i;
+    }while(tmp!=-1 && i<N);
+	clearScreen();
+	cout<<" 信息录入成功，本次录入"<<i<<"条数据! "<<endl;
+	dataSize = i; 
+	return dataSize;
 }
 /*******************************************************       
 功能:输出数组中的学生成绩
@@ -116,14 +142,18 @@ int inputScore(int score[],int length)
 类型：void
 说明：
 *******************************************************/
-void outputScore(int score[],int length)
+void Score::outputScore()
 {
+	if(dataSize <=0){
+		cout<<" 信息为空! \n";
+		return ;
+	}
 	int i=0;
-	
 	cout<<"学生成绩如下：\n";
-	for(i=0;i<length;i++)
+	for(i=0;i<dataSize;i++)
 		cout<<i+1<<"\t"<<score[i]<<endl;
 	cout<<"\n";
+	return ;
 }
 /*******************************************************       
 功能:查找某个学生成绩是否在数组中，如果找到，则输出下标，
@@ -142,19 +172,18 @@ void outputScore(int score[],int length)
 类型：int
 说明：
 *******************************************************/
-int queryScore(int score[],int length,int xScore)
+int Score::queryScore(int xScore)
 {
 	int i;
 	
-	for(i=0;i<length;i++)
+	for(i=0;i<dataSize;i++)
 	{
 		if(xScore==score[i])
         {
 		   return i;
         }
     }
-    
-        return -1;
+    return -1;
 }
 
 /*******************************************************       
@@ -170,13 +199,14 @@ int queryScore(int score[],int length,int xScore)
 类型：void
 说明：
 *******************************************************/
-void sortScore(int score[ ], int length)
+void Score::sortScore()
 {
-	int i, j, t;	
+	int i, j, t;
+	clearScreen();	
 	cout<<"成绩排序如下：\n";
-	for(i = 0; i < length - 1; i++)
+	for(i = 0; i < dataSize - 1; i++)
 	{
-		for(j = 0; j < length - i - 1; j++)
+		for(j = 0; j < dataSize - i - 1; j++)
 			if(score[ j ]>score[ j + 1 ])
 			{
 				t = score[ j ];
@@ -185,13 +215,14 @@ void sortScore(int score[ ], int length)
 			}
 	}
 }
-Course switchCourse(){
+Course Score::switchCourse(){
 	cout << "请输入课程编号（0=Chinese, 1=Math, 2=English）: ";
 	int input;
 	while(1){
 		cin>>input;
 		if (input >= 0 && input <= 2) {
 	        Course course = static_cast<Course>(input);
+	        clearScreen();
 	        switch (course) {
 	            case Course::Chinese:
 	                std::cout << " 已切换到课程：语文" << std::endl;
@@ -203,6 +234,7 @@ Course switchCourse(){
 	                std::cout << " 已切换到课程：英语" << std::endl;
 	                break;
 	        }
+	        break;
 	    } else {
 	        std::cerr << " 输入无效！请重新输入：";
 	    }
@@ -210,6 +242,15 @@ Course switchCourse(){
 	
 	return static_cast<Course>(input);
 }
+
+void Score::clearScreen() {
+    #ifdef _WIN32
+        system("cls");   // Windows
+    #else
+        system("clear"); // Linux/macOS
+    #endif
+}
+
 /*******************************************************       
 功能:主函数
 参数：无				  
@@ -220,28 +261,20 @@ int main()
     int choice = 0; /*代表用户选择的操作数字 */
     int s=0,datalen=0,x,find;
     // 课程成绩数组 
-    int *course[COURSEMAX];
-    for (int i = 0; i < COURSEMAX; i++) {
-        course[i] = (int *)malloc(sizeof(int)*N);  // 动态分配内存
-//        *course[i] = 0;  // 赋值
-    }
-//    int score[N];
+	Score course[COURSEMAX];
     	
      /*====验证用户的口令====*/
-	if (login( ) == 0) 
+	if (Score::login( ) == 0) 
 	{
 		cout<<" 口令错误，不允许进入本系统!\n";
 		exit( 0 );
 	}
 	
-	
     /*====根据用户的选择，执行相应的操作.====*/
     Course input = Course::Chinese;
     while(1)
-    {
-		
-		displayMenu();
-		
+    {	
+		Score::displayMenu();
 		cout << "\n 当前课程: ";
 		switch (input) {
             case Course::Chinese:
@@ -261,32 +294,35 @@ int main()
         switch(choice)
         {
 		case 1:
-			datalen=inputScore(course[i],N);
+			datalen=course[i].inputScore();
 			break;
 		case 2:
-			outputScore(course[i],datalen);
+			Score::clearScreen();
+			course[i].outputScore();
 			break;
 		case 3: 
 			cout<<"\n 请输入要查找的成绩：";
 			cin>>x;
-			find=queryScore(course[i],datalen,x);
+			find=course[i].queryScore(x);
 			if(find>=0)
 				cout<<"要查成绩在数组中的下标为:"<<find<<endl;
 			else 
 				cout<<"没有要查找的成绩:\n";
 			break;
 		case 4:
-			sortScore(course[i],datalen);outputScore(course[i],datalen);
+			course[i].sortScore();
+			course[i].outputScore();
 			break;
 		case 5:
-			input = switchCourse();
+			input = Score::switchCourse();
 			break;
 		case 6:
-			cout<<"正在退出成绩管理系统,请稍后..."<<endl;
+			cout<<" 正在退出成绩管理系统,请稍后..."<<endl;
 			Sleep(500); 
+			
 			exit(0);
-		defalut:
-			printf("选择错误，请重新选择!\n"); 
+		default:
+			printf(" 选择错误，请重新选择!\n"); 
         }
     }
     return 0;
