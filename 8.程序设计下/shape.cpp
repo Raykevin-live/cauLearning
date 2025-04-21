@@ -12,21 +12,15 @@ virtual double area()=0;
 class triangle:public shape
 {
 private:
-	int width,length, h;
+	int base,height;
 public:
-	triangle(int a=10, int b=5, int c = 1)
-	   {width=a;length=b;h = c;}
-	double area()
-	{
-	   // 验证是否为有效三角形
-    if (width <= 0 || length <= 0 || h <= 0 || 
-        (width + length <= h) || (width + h <= length) || (length + h <= width)) {
-        return -1; 
-	    }
-	    double s = (width + length + h) / 2;             
-	    return sqrt(s * (s - width) * (s - length) * (s - h)); 
-	}
+	triangle(int a = 10, int b = 5) { base = a; height = b; }
+    double area() {
+        if (base <= 0 || height <= 0) return -1;
+        return 0.5 * base * height; 
+    }
 };
+
 //StudybarCommentBegin
 class rectangle:public shape
 {
@@ -39,7 +33,6 @@ public:
 	   {return width*length;}
 };
 
-
 double total(shape *s[],int n) 
 { double sum=0.0; 
   for(int i=0;i<n;i++)
@@ -48,7 +41,7 @@ double total(shape *s[],int n)
 }
 int main()
 { 
-	shape *sp[2] ;
+	shape *sp[2];
 	int x,y;
 	cin>>x>>y;
 	triangle one(x,y);
