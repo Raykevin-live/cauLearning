@@ -11,6 +11,8 @@
 #include <iostream>
 #include <cstring>
 #include <Windows.h>
+#include <vector> 
+#include <algorithm>
 using namespace std;
 
 class Score; 
@@ -21,7 +23,7 @@ enum class Course : int{Chinese, Math, English};
 
 class Score{
 private:
-	int score[N];
+	vector<int> score;
 	int dataSize;
 //	Course course;
 public:
@@ -29,6 +31,7 @@ public:
 
 	int inputScore();// 成绩输入
 	void outputScore();// 成绩输出
+	void deleteScore(int pos); // 成绩删除 
 	int queryScore(int xScore); // 成绩查询
 	void sortScore(); // 成绩排序 
 	
@@ -55,7 +58,8 @@ void Score::displayMenu()
 	cout<<"+                    3. 查询                       +\n";
 	cout<<"+                    4. 排序                       +\n";
 	cout<<"+                    5. 切换课程                   +\n";
-	cout<<"+                    6. 结束                       +\n";
+	cout<<"+                    6. 删除                       +\n";
+	cout<<"+                    0. 结束                       +\n";
 	cout<<"+                                                  +\n";
 	cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 	
@@ -120,8 +124,11 @@ int Score::inputScore()
 		cin>>tmp;
 		if(tmp>=0&&tmp<=100)
 		{
-			score[i]=tmp;
+			score.push_back(tmp);
 			i++;
+		}
+		else{
+			cout<<" 成绩不在合理范围内，请输入(0-100)以内的成绩\n"; 
 		}
     }while(tmp!=-1 && i<N);
 	clearScreen();
@@ -174,18 +181,32 @@ void Score::outputScore()
 *******************************************************/
 int Score::queryScore(int xScore)
 {
-	int i;
-	
-	for(i=0;i<dataSize;i++)
-	{
-		if(xScore==score[i])
-        {
-		   return i;
-        }
-    }
-    return -1;
+	auto iter = std::find(score.begin(), score.end(), xScore);
+	if (iter != score.end()) {
+	    return iter - score.begin();
+	}
+	return -1;
 }
-
+/*******************************************************       
+功能:删除学生的成绩
+参数：
+参数1：pos
+类型：int 
+说明：学生成绩下标 
+ 返回值：无
+类型：void
+说明：
+*******************************************************/
+void Score::deleteScore(int pos){
+	pos --;
+	if( pos >= dataSize ||  pos <0){
+		cout<<" 删除失败，无此下标!\n"; 
+		return ;
+	}
+	score.erase(score.begin()+pos);
+	--dataSize;
+	cout<< " 删除下标为："<<pos+1<<" 的成绩成功！\n"; 
+}
 /*******************************************************       
 功能:排序学生的成绩，按照从小到大顺序排序。
 参数：
@@ -201,20 +222,9 @@ int Score::queryScore(int xScore)
 *******************************************************/
 void Score::sortScore()
 {
-	int i, j, t;
-	clearScreen();	
-	cout<<"成绩排序如下：\n";
-	for(i = 0; i < dataSize - 1; i++)
-	{
-		for(j = 0; j < dataSize - i - 1; j++)
-			if(score[ j ]>score[ j + 1 ])
-			{
-				t = score[ j ];
-				score[ j ] = score[ j + 1 ];
-				score[ j + 1 ] = t;
-			}
-	}
+	sort(score.begin(), score.end());
 }
+
 Course Score::switchCourse(){
 	cout << "请输入课程编号（0=Chinese, 1=Math, 2=English）: ";
 	int input;
@@ -288,7 +298,7 @@ int main()
                 break;
         }
         
-		cout<<"\n 请选择您的操作(1,2,3,4,5,6)：\n";
+		cout<<"\n 请选择您的操作(0,1,2,3,4,5,6)：\n";
         cin>>choice;
 		int i = static_cast<int>(input);
         switch(choice)
@@ -317,9 +327,14 @@ int main()
 			input = Score::switchCourse();
 			break;
 		case 6:
+			int pos;
+			cout<<" 请输入要删除的成绩所在下标: "; 
+			cin>>pos;
+			course[i].deleteScore(pos);
+			break;	
+		case 0:
 			cout<<" 正在退出成绩管理系统,请稍后..."<<endl;
 			Sleep(500); 
-			
 			exit(0);
 		default:
 			printf(" 选择错误，请重新选择!\n"); 
