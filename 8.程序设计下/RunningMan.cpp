@@ -179,7 +179,6 @@ void RunningHuman::drawRunner(int pos, int frame) const {
         case 0: std::cout << " /|\\\n"; break;
         case 1: std::cout << " -|-\n"; break;
     }
-
     // 腿部
     setColor(14); // 黄色
     printSpaces(pos);
@@ -191,7 +190,7 @@ void RunningHuman::drawRunner(int pos, int frame) const {
 }
 
 void RunningHuman::printSpaces(int count) const {
-    // 修正空格打印逻辑，确保每次输出正确数量的空格
+    // 空格打印逻辑，确保每次输出正确数量的空格
     for (int i = 0; i < count; ++i) {
         std::cout << ' ';
     }
